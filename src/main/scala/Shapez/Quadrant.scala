@@ -8,6 +8,10 @@ sealed trait Quadrant {
   def +(newColor: Color): Quadrant
 
   def empty: Boolean = false
+
+  def listAllUncolored: Array[Quadrant] = Array(Circle(), Rectangle(), Windmill(), Star())
+
+  def listAll: Array[Quadrant] = listAllUncolored.flatMap(quad => NoneColor.listAll.map(color => quad + color))
 }
 
 case class Circle(color: Color = Uncolored) extends Quadrant {

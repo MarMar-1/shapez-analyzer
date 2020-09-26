@@ -2,8 +2,9 @@ package Shapez
 
 sealed trait Color {
   override def toString: String
-
   def +(that: Color): Color
+
+  def listAll: Array[Color] = Array(Red, Green, Blue, Yellow, Cyan, Purple, White, Uncolored)
 }
 
 object Uncolored extends Color {

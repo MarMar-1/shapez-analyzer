@@ -29,4 +29,14 @@ case class Layer(tr: Quadrant = EmptyQuadrant, br: Quadrant = EmptyQuadrant, bl:
       if (this.tl.empty) that.tl else this.tl
     )
   }
+
+  def listAllStructures: Array[Layer] =
+    Array(
+      Layer(Circle()), Layer(br = Circle()), Layer(bl = Circle()), Layer(tl = Circle()),
+      Layer(Circle(), Circle()), Layer(br = Circle(), bl = Circle()), Layer(bl = Circle(), tl = Circle()), Layer(tl = Circle(), tr = Circle()),
+      Layer(tr = Circle(), bl = Circle()), Layer(br = Circle(), tl = Circle()),
+      Layer(Circle(), Circle(), Circle()), Layer(br = Circle(), bl = Circle(), tl = Circle()),
+      Layer(bl = Circle(), tl = Circle(), tr = Circle()), Layer(tl = Circle(), tr = Circle(), br = Circle()),
+      Layer(Circle(), Circle(), Circle(), Circle()),
+    )
 }
