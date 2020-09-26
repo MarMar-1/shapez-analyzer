@@ -14,6 +14,8 @@ case class Shape(l1: Layer = Layer(), l2: Layer = Layer(), l3: Layer = Layer(), 
 
   def numLayers: Int = layers.count(!_.empty)
 
+  def highestLayer: Int = layers.zipWithIndex.map { case (layer, index) => if (layer.empty) -1 else index }.max + 1
+
   def +(that: Shape): Shape = {
     def fallthroughDepth = {
       if (this.l4 stacks that.l1) {
@@ -44,6 +46,20 @@ case class Shape(l1: Layer = Layer(), l2: Layer = Layer(), l3: Layer = Layer(), 
 
   def rotatedCCW: Shape = {
     Shape(l1.rotatedCCW, l2.rotatedCCW, l3.rotatedCCW, l4.rotatedCCW)
+  }
+
+  private def withoutEmptyLayers: Shape = CreateShape.fromString(this.toString)
+
+  def cut: (Shape, Shape) = {
+    (this.left.withoutEmptyLayers, this.right.withoutEmptyLayers)
+  }
+
+  def right: Shape = {
+    Shape(l1.right, l2.right, l3.right, l4.right)
+  }
+
+  def left: Shape = {
+    Shape(l1.left, l2.left, l3.left, l4.left)
   }
 }
 

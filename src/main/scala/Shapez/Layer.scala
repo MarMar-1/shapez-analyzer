@@ -1,6 +1,10 @@
 package Shapez
 
 case class Layer(tr: Quadrant = EmptyQuadrant, br: Quadrant = EmptyQuadrant, bl: Quadrant = EmptyQuadrant, tl: Quadrant = EmptyQuadrant) {
+  def left: Layer = Layer(bl = bl, tl = tl)
+
+  def right: Layer = Layer(br = br, tr = tr)
+
   def rotatedCW: Layer = Layer(tl, tr, br, bl)
 
   def rotatedCCW: Layer = this.rotatedCW.rotatedCW.rotatedCW

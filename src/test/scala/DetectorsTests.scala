@@ -55,6 +55,28 @@ class DetectorsTests extends FunSuite {
     assert(!Detectors.isSimpleFloating("Cc------:--Rr----:Ww------:--Sg----"))
     assert(!Detectors.isSimpleFloating("CcCc--Cc:--Rr----:Ww------:--Sg----"))
   }
+  test("simple floating shapes are not multilayer scaffolding") {
+    assert(!Detectors.isMultilayerScaffolding("CcCcCc--:------Rr"))
+    assert(!Detectors.isMultilayerScaffolding("Cc------:------Rr"))
+    assert(!Detectors.isMultilayerScaffolding("--Cc----:----Rr--"))
+    assert(!Detectors.isMultilayerScaffolding("Cc--Cc--:--Rr--Rr:WwWwWwWw:WwWwWwWw"))
+    assert(!Detectors.isMultilayerScaffolding("WwWwWwWw:Cc--Cc--:--Rr--Rr:WwWwWwWw"))
+    assert(!Detectors.isMultilayerScaffolding("WwWwWwWw:WwWwWwWw:Cc--Cc--:--Rr--Rr"))
+  }
+  test("impossible floating shapes are not multilayer scaffolding") {
+    assert(!Detectors.isMultilayerScaffolding("Cc------:----Rr--"))
+    assert(!Detectors.isMultilayerScaffolding("Cc------:----RrRr"))
+    assert(!Detectors.isMultilayerScaffolding("Cc------:--RrRrRr"))
+  }
+  test("drop-through shapes are not multilayer scaffolding") {
+    assert(!Detectors.isMultilayerScaffolding("Cc----Cc:----Rr--:SgSg--Sg:----Ww--"))
+    assert(!Detectors.isMultilayerScaffolding("Cc------:--Rr--Rr:Ww--Ww--:--Sg--Sg"))
+    assert(!Detectors.isMultilayerScaffolding("Cc------:----RrRr:----Ww--"))
+  }
+  test("multi-layer scaffolding shapes are multilayer scaffolding") {
+    assert(Detectors.isMultilayerScaffolding("Cc------:--Rr----:Ww------:--Sg----"))
+    assert(Detectors.isMultilayerScaffolding("CcCc--Cc:--Rr----:Ww------:--Sg----"))
+  }
   test("simple floating shapes are not dropthrough") {
     assert(!Detectors.isDropThrough("CcCcCc--:------Rr"))
     assert(!Detectors.isDropThrough("Cc------:------Rr"))
@@ -70,10 +92,20 @@ class DetectorsTests extends FunSuite {
   }
   test("drop-through shapes are dropthrough") {
     assert(Detectors.isDropThrough("Cc----Cc:----Rr--:SgSg--Sg:----Ww--"))
+    assert(Detectors.isDropThrough("Cc------:--Rr--Rr:Ww--Ww--:--Sg--Sg"))
     assert(Detectors.isDropThrough("Cc------:----RrRr:----Ww--"))
   }
   test("multi-layer scaffolding shapes are not dropthrough") {
     assert(!Detectors.isDropThrough("Cc------:--Rr----:Ww------:--Sg----"))
     assert(!Detectors.isDropThrough("CcCc--Cc:--Rr----:Ww------:--Sg----"))
+  }
+
+  test("impossible shapes") {
+    assert(!Detectors.isPossible("Cc------:----Cc--"))
+    assert(!Detectors.isPossible("Cc------:----Cc--:Cc------"))
+    assert(!Detectors.isPossible("Cc------:--Cc----:----Cc--"))
+    assert(!Detectors.isPossible("Cc------:--Cc----:----Cc--:------Cc"))
+    assert(!Detectors.isPossible("--Cc----:Cc--Cc--"))
+    assert(!Detectors.isPossible("Cu------:----Cu--:Cu------:--Cu--Cu"))
   }
 }
